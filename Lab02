@@ -1,0 +1,70 @@
+public class TheDotProduct2D {
+
+	public static void main(String[] args) {
+		int[][] my2D_wide={{1,3},{4,6},{15,16}};	// First Matrix
+		System.out.println("Original Matrix: ");
+		PrintVect2D(my2D_wide);
+		int rows=0;
+		int cols=0;
+
+		rows= my2D_wide.length;
+		cols= my2D_wide[0].length;
+		int[][] my2D_tall = new int[cols][rows];	// Second Matrix
+		my2D_tall=Transpose2D(my2D_wide);
+		System.out.println("\nTransposed Matrix: ");
+		PrintVect2D(my2D_tall);
+		
+		System.out.println("\nDot Product of two Vectors: ");
+		int[][] actual = DotProd2D(my2D_wide, my2D_tall);
+		PrintVect2D(actual);
+}
+	// Reverses the row and column from the first Matrix
+public static int[][] Transpose2D(int[][] vect) {
+	
+	int cols=vect[0].length;
+	int rows=vect.length;
+	int trans[][] = new int[cols][rows];
+	for(int i=0; i<rows; i++) {
+		for(int j=0; j<cols; j++) {
+			trans[j][i]=vect[i][j];
+		}
+	}
+	return trans;
+}	// Prints the Matrix in 2d array of 2*3
+public static void PrintVect2D(int[][] vect) {
+	System.out.print("{ ");
+	for(int i=0; i<vect.length; i++) {
+		if(i>0)
+			System.out.print("  ");
+		for(int j=0; j<vect[0].length; j++) {
+			if(j<vect[0].length-1)
+				System.out.print(vect[i][j]+", ");
+			else
+				System.out.print(vect[i][j]);
+		}
+		if(i<vect.length-1)
+			System.out.println("");
+		else
+			System.out.println(" }");
+	}
+}
+	// Iterate through the cells
+public static int[][] DotProd2D(int[][] my2D_wide, int[][] my2D_tall) {
+    int[][] result = new int[my2D_wide.length][my2D_tall[0].length];
+
+    for (int row = 0; row < result.length; row++) {
+        for (int col = 0; col < result[row].length; col++) {
+            result[row][col] = DotProd2DCell(my2D_wide, my2D_tall, row, col);
+        }
+    }
+    return result;
+}
+	// Multiply for a single cell
+public static int DotProd2DCell(int[][] my2d_wide, int[][] my2d_tall, int row, int col) {
+    int cell = 0;
+    for (int i = 0; i < my2d_tall.length; i++) {
+        cell += my2d_wide[row][i] * my2d_tall[i][col];
+    }
+    return cell;
+}
+}
