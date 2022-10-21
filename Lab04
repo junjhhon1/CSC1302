@@ -1,0 +1,76 @@
+//BankAccount File
+public class BankAccount {
+
+	private String name;
+	private double balance;
+	
+	public void deposit(double amount) {
+		balance += amount;
+	}
+	public void withdraw(double amount) {
+		balance -=  amount;
+	}
+	
+	// Constructor Bank Account
+	public BankAccount(){}
+	public BankAccount(String name_new, double bal_new) {
+		this.name = name_new;
+		this.balance = bal_new;
+	}
+	
+	//Getters (Access method) 
+	public String getName() {
+		return this.name;
+	}
+	public double getBalance() {
+		return this.balance;
+	}
+ 	
+	//Setters (Mutator method)
+	public void setName(String name) {
+		this.name = name;
+	}
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+	
+	@Override
+	public String toString() {
+		return name + ", $" + balance;
+	}
+	
+}
+
+//TestBanlAccount File
+
+public class TestBankAccount{
+	
+	public static void main(String[] args) {
+		try {
+			// Object B1
+			BankAccount B1 = new BankAccount("Jake", 200);
+			System.out.println(B1);
+			
+			// Deposit new amount to B1 balance
+			B1.deposit(500);
+			System.out.println("+$500: " + B1);
+			
+			// Withdraw new amount to B1 Balance
+			B1.withdraw(300);
+			System.out.println("-$300: " + B1);
+			
+			System.out.println("-----------------");
+			
+			// Object B2 without initializing it
+			BankAccount B2 = new BankAccount();
+			System.out.println(B2);
+			// Using Setter method to assign name and balance to B2
+			B2.setName("Jun");
+			B2.setBalance(350);
+			
+			System.out.println(B2);
+		} catch (Exception e) {
+			System.out.println("Something is wrong. :(");
+		}
+	}
+}
