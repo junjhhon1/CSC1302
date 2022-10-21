@@ -1,0 +1,76 @@
+//DataEntryException File
+public class DataEntryException extends Exception
+{
+	// create constructor to accept two parameters
+	public DataEntryException(int num, String text) {
+		super(text);
+	}
+	// use 'super' to indicate custom exception with 
+	// what is wrong type of input (ID or Age) 
+	// and the actual value itself
+	
+}
+
+//GetIdAndAge File
+import java.util.*;
+public class GetIDAndAge
+{
+	static final int HIGHID = 999;
+    static final int HIGHAGE = 119;
+    static final int LOW = 0;
+    public static void main(String[] args)
+    {
+      int id,age;
+      boolean bSTOP=false;
+      Scanner keyboard = new Scanner(System.in);
+      while(!bSTOP) {
+         //your try block:
+    	  try {
+		 //display message using showStatus() to input ID in range 0..999
+    		  showStatus("Please input ID (0..999)");
+		 //use 'keyboard' scanner to get int value for ID
+    		  System.out.print("Enter ID ");
+    		  id = keyboard.nextInt();
+		 //display message using showStatus() to input Age in range 0..119
+    		  showStatus("Please input Age (0..119)");
+		 //use 'keyboard' scanner to get int value for Age
+    		  System.out.print("Enter Age ");
+    		  age = keyboard.nextInt();
+		 //call 'check' with ID and Age and set "bSTOP" as value back from 'check'
+    		   bSTOP = check(id, age);
+		 //catch block for 'DataEntryException'
+    	  } catch (DataEntryException a) {
+		 //catch block for 'InputMismatchException'
+    		  System.out.println("ERROR in answer");
+    	  } catch (InputMismatchException b) {
+    	  }
+      }
+	  //close Scanner
+	  //Display thank you message
+      System.out.println("Thank you.");
+    }
+    public static boolean check(int idNum, int ageNum) throws DataEntryException {
+
+	  // code the 'if' testing for idNum and ageNum
+	  // throw DataEntryException with correct parameters    	
+    	if (idNum > HIGHID && idNum < LOW) {
+    		new DataEntryException(idNum, "ID should be within 0...99");
+    	}
+    	if (ageNum > HIGHAGE && ageNum < LOW) {
+    		new DataEntryException(ageNum, "Age should be within 0...119");
+    	}
+    	if (idNum < HIGHID && idNum > LOW && ageNum < HIGHAGE && ageNum > LOW){
+    		System.out.println("ID and Age are OK");
+    	}
+	  // when both idNum and ageNum are zero, return true
+    	if (idNum == LOW && ageNum == LOW) {
+    		return true;
+    	}
+      return false;
+    }
+
+	public static void showStatus(String msg)
+    {
+      System.out.println(msg);
+    }
+}
