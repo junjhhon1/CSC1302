@@ -1,0 +1,87 @@
+// Rectangle File
+public class Rectangle<R1, R2> {
+
+	double X;
+	private double Y;
+	private double height;
+	private double width;
+	
+	public Rectangle(double X, double Y, double height, double width) {
+		this.X = X;
+		this.Y = Y;
+		this.height = height;
+		this.width = width;
+	}
+	
+	// Getters
+	public double getX() {
+		return this.X;
+	}
+	public double getY() {
+		return this.Y;
+	}
+	public double getHeight() {
+		return this.height;
+	}
+	public double getWidth() {
+		return this.width;
+	}
+
+	// Setters
+	public void setX(double X) {
+		this.X = X;
+	}
+	public void setY(double Y) {
+		this.Y = Y;
+	}
+	public void setHeight(double height) {
+		this.height = height;
+	}
+	public void setWIdth(double width) {
+		this.width = width;
+	}
+	
+
+	
+	
+	@Override	//Override the toString() method to produce the info
+	public String toString() {
+		return "Rectangle [x=" + this.X + ", y=" + this.Y + ", height=" +
+				this.height + ", width=" + this.width + "] Area is " +
+		(this.height * this.width);
+	}
+
+}
+
+//TestRectangle file
+
+public class TestRectangle {
+		// Determines whether or not the rectangles are overlapping
+			static boolean IsOverlap(Rectangle R1, Rectangle R2) {
+			    if (R1.getY() < R2.getY() || R1.getY() > R2.getY()) {
+			    return false;
+			}
+			    if (R1.getX() < R2.getX() || R1.getX() > R2.getX()) {
+			    return false;
+			}
+			 return true;
+	}
+	public static void main(String[] args) {
+		
+		// Creates 2 rectangle objects
+		Rectangle R1 = new Rectangle(2.5, 13.0, 14.0, 4.0);
+		Rectangle R2 = new Rectangle(1,1,1,1);
+		
+		// Prints out the 2 rectangle
+		System.out.println(R1 + "\n" + R2);
+		
+		// Prints out whether or not the rectangle are overlapping or not
+        if (IsOverlap(R1, R2)) {
+            System.out.println("Rectangles Overlap");
+        } else {
+            System.out.println("Rectangles Don't Overlap");
+        }
+	}
+
+
+}
