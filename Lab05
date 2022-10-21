@@ -1,0 +1,152 @@
+//Student File
+
+public class Student {
+	//Fields
+	private static String major;
+	private static double gpa;
+	private static int creditHours;
+	private static String year;
+	
+	// Method
+	public Student(String major, double gpa, int creditHours, String year) {
+		Student.major = major;
+		Student.gpa = gpa;
+		Student.creditHours = creditHours;
+		Student.year = year;
+	}
+	//Getter
+	public static double getGpa() {
+		return gpa;
+	}
+	public static String getMajor() {
+		return major;
+	}
+	public static int getCreditHours() {
+		return creditHours;
+	}
+	public String getYear() {
+		if (creditHours < 32) {
+			year = "Freshman";
+		} else if (creditHours >= 32 && creditHours < 64) {
+			year = "Sophomore";
+		} else if (creditHours >= 64 && creditHours < 96) {
+			year = "Junior";
+		} else if (creditHours >= 96) {
+			year = "Senior";
+		}
+		return year;
+	}
+
+}
+
+//Graduate File
+
+public class Graduate extends Student{
+	// Fields
+	private static String degree;
+	private static String concentration;
+	private static int years;
+	// Method
+	public Graduate(String major, double gpa, int creditHours,String year, String degree, int years, String concentration) {
+		super(major, gpa, creditHours, year);
+		Graduate.degree = degree;
+		Graduate.years = years;
+		Graduate.concentration = concentration;
+	}
+	//Getter
+	public int getYears() {
+		return years;
+	}
+	public String getConcentration() {
+		return concentration;
+	}
+	// To-String
+	public String toString() {
+		return "MAJOR: " + getMajor() 
+		+ "\nGPA: " + getGpa()
+		+ "\nDEGREE: " + degree
+		+ "\nYEARS: " + years
+		+ "\nCONCENTRATION: " + concentration;
+	}
+	
+}
+
+//Undergraduate File
+
+public class Undergraduate extends Student{
+	// Fields
+	private static boolean honors;
+	// Method
+	public Undergraduate(String major, double gpa, int creditHours,String year, boolean isHonors) {
+		super(major, gpa, creditHours, year);
+		isHonors = honors;
+	}
+	//Getter
+	public static boolean isHonors() {
+		if (honors == true) {
+			return true;
+		} else {
+			return true;
+		}
+	}
+	// To-String
+	public String toString() {
+		return "MAJOR: " + getMajor() 
+				+ "\nGPA: " + getGpa() 
+				+ "\nCREDIT HOURS: " + getCreditHours() +"/" +getYear()
+				+ "\nHONOR: " + honors;
+	}
+}
+
+//Exchange File
+
+public class Exchange extends Undergraduate{
+	// Fields
+	private static String country;
+	private static String year;
+	
+	// Method
+	public Exchange(String major, double gpa, int creditHours, String degree, String year, String country) {
+		super(major, gpa, creditHours, year, isHonors());
+		Exchange.country = country;
+		Exchange.year = year;
+	}
+	public String getCountry() {
+		return country;
+	}
+	public String getYear() {
+		return year;
+	}
+	
+	public String toString() {
+		return "MAJOR: " + getMajor() 
+				+ "\nGPA: " + getGpa() 
+				+ "\nCREDIT HOURS: " + getCreditHours() + "/" + super.getYear()
+				+ "\nHONOR: " + isHonors()
+				+ "\nSEMESTER: " + year
+				+ "\nCOUNTRY: " + country;
+	}
+}
+
+//TestStudent File
+
+public class TestStudent {
+
+	public static void main(String[] args) throws Exception {
+		// TODO Auto-generated method stub
+		try {
+		Undergraduate Alex = new Undergraduate("Bioinformatics", 3.9, 54, null, true);
+		System.out.println("Alex\n" + Alex);
+		
+		Graduate Mary = new Graduate("Computer Science", 3.91, 0, "Masters", null, 1, "Data Science");
+		System.out.println("\nMary\n" + Mary);
+		
+		Exchange YingShu = new Exchange("Cybersecurity", 3.2, 160, "Graduate", "Fall 2022", "Taiwan");
+		System.out.println("\nYingShu\n" + YingShu);
+		} catch (Exception e) {
+			System.out.println("ERROR");
+		}
+	}
+
+		
+}
