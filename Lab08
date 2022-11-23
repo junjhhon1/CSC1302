@@ -1,0 +1,149 @@
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+
+public class BankDataProcessing {
+	static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd-yyyy");
+	static ArrayList<BankAccount> Accounts = new ArrayList<>();
+
+	public static void main(String[] args) {
+		try {
+			Path path = Paths.get("src/AccountData.csv");
+			readAccounts(path, true);
+			Path path2 = Paths.get("src/BankTransData.csv");
+			readTransactions(path2, true, Accounts);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void readAccounts(Path Xpath, boolean bHead) throws IOException {
+		BufferedReader bufferedReader = Files.newBufferedReader(Xpath);
+		try {
+			/*
+			 * 1) open the 'path2' file with accounts 'AccountData.csv' - DONE 2) code to
+			 * process a String 'line' if header in file - DONE 3)process remainder of
+			 * 'AccountData.csv' -DONE 4)split each line into a string array
+			 * String[]=line.split.... //name,acctnum -DONE 5)put information into each
+			 * object in the ArrayList 6) of GLOBAL 'Accounts' variable of object data type
+			 * 'BankAccount'
+			 */
+			bufferedReader.readLine();// Skips First line
+			String line;
+			while ((line = bufferedReader.readLine()) != null) { // A method used to read every line of text from the
+																	// file and it'll loop until all lines are read
+				String[] values = line.split(","); // Splits the given strings around ',' returning a string array
+				String name = values[0]; // Array location 1 will be in list call name
+				String acctnum = values[1]; // Array location 2 will be in list call acctnum
+				Accounts.add(new BankAccount(name, Integer.parseInt(acctnum)));
+			}
+		} catch (IOException ioe) {
+			bufferedReader.close();
+			ioe.printStackTrace();
+		} finally {
+			bufferedReader.close();
+		}
+	}
+
+	private static void readTransactions(Path Xpath, boolean bHead, ArrayList<BankAccount> Xaccounts)
+			throws IOException {
+		for (int i = 0; i < Accounts.size(); i++) {
+			System.out.println("Account for " + Accounts.get(i).getAcctname() + ", " + Accounts.get(i).getAcctnum());
+			BufferedReader bufferedReader = Files.newBufferedReader(Xpath);
+
+			try {
+				// one big 'for each' loop to process each 'BankAccount' in ArrayList
+				// 'Xaccounts'
+				// test for header
+				// open the file using 'Xpath' and BufferedReader object
+				// split each line into a string array String[]=line.split.... //
+				// acctnum,date,transtype,amount
+				// print the "account name and number"
+				// while loop
+				// if "c" then Sting transtype is "Credit" else, "Debit"
+				// total all transactions for balance when current account number (from the 'for
+				// each loop')
+				// equals 'Xaccounts.getAcctnum' hint: use Integer.parseInt()
+				// print each transaction with proper "Credit" or "Debit" shown in sample output
+				// end while loop
+				// set balance in the specific 'Xaccounts' variable
+				// print the specific 'Xaccounts' element/object (uses the @Override in
+				// 'BankAcccount')
+				// CLOSE THE BufferedReader object
+				// end the for loop
+				bufferedReader.readLine();
+				String line = null;
+				double balance = 0;
+
+				while ((line = bufferedReader.readLine()) != null) { // A method used to read every line of text from
+																		// the file and it'll loop until all lines are
+																		// read
+					int acctnum = Integer.parseInt(line.split(",")[0]);// Turns string into an int stored inside acctnum
+																		// while splitting the string around ',' to
+																		// return a string
+					TemporalAccessor date = null; // Initialized date
+					int amount = 0; // Initialized amnt
+					String transtype = null; // Initialized transtype
+
+					if (acctnum == Accounts.get(i).getAcctnum()) { // Condition to match account number with getter
+						date = formatter.parse(line.split(",")[1]); // Format the in array location 1 while splitting
+																	// the string around ','
+						amount = Integer.parseInt(line.split(",")[3]); // Change the string data in array location 3 to a
+																		// integer while splitting the string around ','
+						transtype = "Credit"; // Set the value of transaction type to 'Credit'
+						if (line.split(",")[2].equalsIgnoreCase("d")) { // If the data in array location 2 shows a 'd'
+							transtype = "Debit"; // Change the value of transaction type to 'Debit'
+							balance -= amount; // The string inside array location 2 will indicate subtraction from
+												// balance if 'Debit'
+						} else {
+							balance += amount; // If the string is considered 'Credit' it will be added to balance
+						}
+						System.out.println("Transaction date: " + formatter.format(date) + ", " + transtype + "= " + amount);// Print out
+																											// the date,
+																											// transtype,and
+																											// amount of
+																											// that row.
+					}
+				}
+				Accounts.get(i).setBalance(balance); // Set a new balance after adding and subtracting
+				System.out.println(Accounts.get(i).toString()); // Get String object to represent the number object
+				System.out.println("-----------------------------------------------------------------");
+			} catch (IOException ioe) {
+				bufferedReader.close();
+				ioe.printStackTrace();
+			} finally {
+				bufferedReader.close();
+			}
+		}
+	}
+}
+
+public class BankAccount {
+	private String name;
+	private double balance;
+	private int acctnum;
+	public BankAccount(String Xname, int Xacct) {
+		this.name = Xname;
+		this.acctnum = Xacct;
+	}
+	public void setBalance(double Xbalance) {
+		this.balance = Xbalance;
+	}
+	public String getAcctname() {
+		return this.name;
+	}
+	public int getAcctnum(){
+		return this.acctnum;
+	}
+	
+@Override
+	public String toString() {
+		return this.name+", has balance: $"+this.balance;
+	}
+}
+
